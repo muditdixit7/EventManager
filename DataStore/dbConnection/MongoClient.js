@@ -6,11 +6,11 @@ exports.connectToDb = function(callback){
 	mongo.connect(dbUrl, function(err, db) {
 	if (err) {
 		console.log('nahi hua')
+			callback()
 		return null	
 		}
 	else{
 		console.log('yaha ka')
-		console.log(db)
 		exports.dbCon=db
 		callback()
 		}	

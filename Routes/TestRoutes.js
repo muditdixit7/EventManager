@@ -1,4 +1,3 @@
-
 var registerUserPage = require('../Testing/RegisterUserPage.js')
 var createEventPage = require('../Testing/CreateEventPage.js')
 var testRouter=require('express').Router();

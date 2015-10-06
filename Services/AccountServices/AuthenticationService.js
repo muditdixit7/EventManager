@@ -11,7 +11,6 @@ exports.authenticationHandler = function(request, response) {
 		username: request.body.email,
 		password: request.body.password
 	};
-
 //	mongoClient.connect(dbUrl, function(err, db) {
 
 		//if (err) {
