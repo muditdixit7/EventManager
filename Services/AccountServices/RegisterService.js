@@ -10,8 +10,7 @@ exports.registerUserHandler = function(request, response) {
 		password: request.body.password,
 		phoneNumber: request.body.phoneNumber,
 		category: request.body.category,
-		events: [],
-		events: request.body.eventArray
+		events: []
 	}
 //	mongo.connect(dbUrl, function(err, db) {
 //if (err) {

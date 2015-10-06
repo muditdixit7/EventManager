@@ -1,10 +1,9 @@
-var MongoClient = require('mongodb').MongoClient;
 var appConfig = require(process.cwd()+'\\AppConfig');
 var appConfig='';
 var dbUrl = appConfig.dbConnectionUrl;
 var MongoClient = require(process.cwd()+'\\DataStore\\dbConnection\\MongoClient.js')
 var CustomerDbFunctions =require(process.cwd()+'\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
-
+var exports = module.exports = {}
 exports.createEventHandler = function(request, response) {
 eventObj = {
 	eventCategory: request.body.eventType,
@@ -14,6 +13,7 @@ eventObj = {
 //	if (err) {
 //		callback(false, response)
 //	}
+	
 	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback, response);
 		//Emitt notification evemt from
 //});

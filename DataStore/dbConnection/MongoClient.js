@@ -9,7 +9,8 @@ exports.connectToDb = function(callback){
 		return null	
 		}
 	else{
-		console.log('connection hua')
+		console.log('yaha ka')
+		console.log(db)
 		exports.dbCon=db
 		callback()
 		}	
