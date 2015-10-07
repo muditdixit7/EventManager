@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": "DataStore"
+		},
+		{
+			"path": "Services"
+		},
+		{
+			"path": "Routes"
+		},
+		{
+			"path": "Testing"
+		}
+	]
+}
