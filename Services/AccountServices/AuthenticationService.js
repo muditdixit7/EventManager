@@ -16,23 +16,21 @@ exports.authenticationHandler = function(request, response) {
 
 }
 
-function callback(isSuccess, response) {
+function callback(isSuccess, response,user) {
 	if (isSuccess) {
-		response.writeHead(200, {
-			'Content-Type': 'text/html'
-		});
-
 		var token = jwt.sign(user, appConfig.secret, {
-			expiresInMinutes: 1440 // expires in 24 hours
+			expiresIn: 60 // expires in 24 hours
 		});
-
+		console.log(token)
 		response.json({
 			success: true,
 			message: 'User authencticate',
 			token: token
 		})
-		console.log(token)
 		response.write('success')
+		response.writeHead(200, {
+			'Content-Type': 'text/html'
+		});
 		response.end();
 	} else {
 		response.writeHead(200, {

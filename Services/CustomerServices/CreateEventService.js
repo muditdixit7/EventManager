@@ -4,6 +4,8 @@ var dbUrl = appConfig.dbConnectionUrl;
 var MongoClient = require(process.cwd()+'\\DataStore\\dbConnection\\MongoClient.js')
 var CustomerDbFunctions =require(process.cwd()+'\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
 var exports = module.exports = {}
+var events = require('events')
+var eventEmitter = new events.EventEmitter();
 
 
 var Db = require('mongodb').Db;
@@ -33,8 +35,11 @@ eventObj = {
 
 function callback(isSuccess, response) {
 	if (isSuccess) {
-		response.write('Event create successfully')
+		eventEmitter.emit('eventCreated')
+		console.log('Event created successfully')
+		response.write('Event created successfully')
 		response.end();
+
 	} else {
 		response.write('Event creation failed')
 		response.end();

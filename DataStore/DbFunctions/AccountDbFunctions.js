@@ -11,18 +11,15 @@ exports.registerUserQuery = function(db, userObj, response, callback) {
 
 exports.loginQuery = function(db, credentials, callback, response) {
 	console.log(credentials.username,credentials.password)
-	var cursor = db.collection('UserCollect').find({
+	var cursor = db.collection('UserCollection').find({
 		"emailId": credentials.username,
 		"password":credentials.password
 	}).toArray(function(err, result) {
 		if (err) {
-			console.log(result)
 			callback(false, response);
 		} else if (result.length) {
-			console.log(result)
-			callback(true, response);
+			callback(true, response,result[0]);
 		} else {
-			console.log(result)
 			callback(false, response);
 		}
 		db.close();
