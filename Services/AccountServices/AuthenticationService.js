@@ -21,22 +21,17 @@ function callback(isSuccess, response,user) {
 		var token = jwt.sign(user, appConfig.secret, {
 			expiresIn: 60 // expires in 24 hours
 		});
-		console.log(token)
-		response.json({
+
+		response.writeHead({
 			success: true,
 			message: 'User authencticate',
 			token: token
 		})
-		response.write('success')
-		response.writeHead(200, {
-			'Content-Type': 'text/html'
-		});
-		response.end();
+		console.log(response)
+		//response.end();
 	} else {
-		response.writeHead(200, {
-			'Content-Type': 'text/html'
-		});
-		response.write('login Unsuccess');
+
+		//response.write('login Unsuccessful');
+		response.end();
 	}
-	response.end();
 }

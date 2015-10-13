@@ -1,3 +1,5 @@
+console.log('Oauth hua 2')
+
 var appConfig = require(process.cwd()+'\\AppConfig');
 var appConfig='';
 var dbUrl = appConfig.dbConnectionUrl;
@@ -8,27 +10,14 @@ var events = require('events')
 var eventEmitter = new events.EventEmitter();
 
 
-var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
-var appConfig = require(process.cwd()+'\\AppConfig');
-var dbUrl = appConfig.dbConnectionUrl;
-
-
-var dbCon = new Db('User', new Server('localhost', 27017))
 
 exports.createEventHandler = function(request, response) {
 eventObj = {
 	eventCategory: request.body.eventType,
 	eventDescription: request.body.eventDescription
 };
-//MongoClient.connect(url, function(err, db) {
-//	if (err) {
-//		callback(false, response)
-//	}
-	
-	CustomerDbFunctions.createNewEventQuery(dbCon, eventObj, callback, response);
-		//Emitt notification evemt from
-//});
+
+	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback, response);
 }
 
 
