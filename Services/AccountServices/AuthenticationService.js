@@ -1,35 +1,36 @@
 var mongoClient = require('mongodb').MongoClient;
-var Cookies = require('cookies')
-var appConfig = require(process.cwd() + '\\AppConfig');
+var assert = require('assert');
+var appConfig= require(process.cwd()+'\\AppConfig');
 var dbUrl = appConfig.dbConnectionUrl;
-var MongoClient = require(process.cwd() + '\\DataStore\\dbConnection\\MongoClient.js')
-var AccountDbFunctions = require(process.cwd() + '\\DataStore\\DbFunctions\\AccountDbFunctions.js');
-var jwt = require('jsonwebtoken');
-var cookies = null
+var MongoClient = require(process.cwd()+'\\DataStore\\dbConnection\\MongoClient.js')
+var AccountDbFunctions = require(process.cwd()+'\\DataStore\\DbFunctions\\AccountDbFunctions.js');
+
 exports.authenticationHandler = function(request, response) {
-	cookies = new Cookies(request, response)
+
 	var credentials = {
 		username: request.body.email,
 		password: request.body.password
 	};
-	AccountDbFunctions.loginQuery(MongoClient.dbCon, credentials, callback, response);
+//	mongoClient.connect(dbUrl, function(err, db) {
 
+		//if (err) {
+		//	callback(false, response);
+		//}
+		AccountDbFunctions.loginQuery(MongoClient.dbCon, credentials, callback, response);
+//	});
 }
 
-function callback(isSuccess, response, user) {
+function callback(isSuccess, response) {
 	if (isSuccess) {
-		user.password = null
-		var token = jwt.sign(user, appConfig.secret, {
-			expiresIn: 3660 // expires in 24 hours
+		response.writeHead(200, {
+			'Content-Type': 'text/html'
 		});
-
-		cookies.set('auth_token', token)
-		console.log('cookie set hui')
-		response.write(new Buffer(JSON.stringify(user)))
-		response.end()
-
-
+		response.write('login success');
 	} else {
-		response.end();
+		response.writeHead(200, {
+			'Content-Type': 'text/html'
+		});
+		response.write('login Unsuccess');
 	}
+	response.end();
 }
