@@ -1,31 +1,25 @@
-console.log('Oauth hua 2')
-
-var appConfig = require(process.cwd()+'\\AppConfig');
-var appConfig='';
-var dbUrl = appConfig.dbConnectionUrl;
-var MongoClient = require(process.cwd()+'\\DataStore\\dbConnection\\MongoClient.js')
-var CustomerDbFunctions =require(process.cwd()+'\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
+var appConfig = require(process.cwd() + '\\AppConfig');
+var MongoClient = require(process.cwd() + '\\DataStore\\dbConnection\\MongoClient.js')
+var CustomerDbFunctions = require(process.cwd() + '\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
+require(process.cwd() + '\\Services\\VendorServices\\NotifyVendors.js')
 var exports = module.exports = {}
-var events = require('events')
-var eventEmitter = new events.EventEmitter();
 
 
 
 exports.createEventHandler = function(request, response) {
-eventObj = {
-	eventCategory: request.body.eventType,
-	eventDescription: request.body.eventDescription
-};
+	eventObj = {
+		eventCategory: request.body.eventType,
+		eventDescription: request.body.eventDescription
+	};
 
-	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback, response);
+	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback,request, response);
 }
 
 
 
-function callback(isSuccess, response) {
+function callback(isSuccess, response, eventType) {
 	if (isSuccess) {
-		eventEmitter.emit('eventCreated')
-		console.log('Event created successfully')
+		appConfig.eventEmitter.emit('eventCreated', eventType)
 		response.write('Event created successfully')
 		response.end();
 

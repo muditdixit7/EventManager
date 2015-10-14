@@ -1,13 +1,13 @@
 var mongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
+var Cookies = require('cookies')
 var appConfig = require(process.cwd() + '\\AppConfig');
 var dbUrl = appConfig.dbConnectionUrl;
 var MongoClient = require(process.cwd() + '\\DataStore\\dbConnection\\MongoClient.js')
 var AccountDbFunctions = require(process.cwd() + '\\DataStore\\DbFunctions\\AccountDbFunctions.js');
 var jwt = require('jsonwebtoken');
-
+var cookies = null
 exports.authenticationHandler = function(request, response) {
-
+	cookies = new Cookies(request, response)
 	var credentials = {
 		username: request.body.email,
 		password: request.body.password
@@ -16,22 +16,20 @@ exports.authenticationHandler = function(request, response) {
 
 }
 
-function callback(isSuccess, response,user) {
+function callback(isSuccess, response, user) {
 	if (isSuccess) {
+		user.password = null
 		var token = jwt.sign(user, appConfig.secret, {
-			expiresIn: 60 // expires in 24 hours
+			expiresIn: 3660 // expires in 24 hours
 		});
 
-		response.writeHead({
-			success: true,
-			message: 'User authencticate',
-			token: token
-		})
-		console.log(response)
-		//response.end();
-	} else {
+		cookies.set('auth_token', token)
+		console.log('cookie set hui')
+		response.write(new Buffer(JSON.stringify(user)))
+		response.end()
 
-		//response.write('login Unsuccessful');
+
+	} else {
 		response.end();
 	}
 }
