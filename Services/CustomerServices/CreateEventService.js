@@ -1,42 +1,25 @@
-var appConfig = require(process.cwd()+'\\AppConfig');
-var appConfig='';
-var dbUrl = appConfig.dbConnectionUrl;
-var MongoClient = require(process.cwd()+'\\DataStore\\dbConnection\\MongoClient.js')
-var CustomerDbFunctions =require(process.cwd()+'\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
+var appConfig = require(process.cwd() + '\\AppConfig');
+var MongoClient = require(process.cwd() + '\\DataStore\\dbConnection\\MongoClient.js')
+var CustomerDbFunctions = require(process.cwd() + '\\DataStore\\DbFunctions\\CustomerDbFunctions.js');
+require(process.cwd() + '\\Services\\VendorServices\\NotifyVendors.js')
 var exports = module.exports = {}
-var events = require('events')
-var eventEmitter = new events.EventEmitter();
 
 
-var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
-var appConfig = require(process.cwd()+'\\AppConfig');
-var dbUrl = appConfig.dbConnectionUrl;
-
-
-var dbCon = new Db('User', new Server('localhost', 27017))
 
 exports.createEventHandler = function(request, response) {
-eventObj = {
-	eventCategory: request.body.eventType,
-	eventDescription: request.body.eventDescription
-};
-//MongoClient.connect(url, function(err, db) {
-//	if (err) {
-//		callback(false, response)
-//	}
-	
-	CustomerDbFunctions.createNewEventQuery(dbCon, eventObj, callback, response);
-		//Emitt notification evemt from
-//});
+	eventObj = {
+		eventCategory: request.body.eventType,
+		eventDescription: request.body.eventDescription
+	};
+
+	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback,request, response);
 }
 
 
 
-function callback(isSuccess, response) {
+function callback(isSuccess, response, eventType) {
 	if (isSuccess) {
-		eventEmitter.emit('eventCreated')
-		console.log('Event created successfully')
+		appConfig.eventEmitter.emit('eventCreated', eventType)
 		response.write('Event created successfully')
 		response.end();
 
