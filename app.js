@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var MongoClient = require('./DataStore/dbConnection/MongoClient.js')
 var privateRoutes = require('./Routes/PrivateRoutes');
 var publicRoutes = require('./Routes/PublicRoutes');
-var testingRoutes = require('./Routes/TestRoutes')
+var testingRoutes = require('./Routes/TestRoutes');
 
 var events = require('events')
 var eventEmitter = new events.EventEmitter();

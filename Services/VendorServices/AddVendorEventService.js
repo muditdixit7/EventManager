@@ -8,8 +8,7 @@ exports.addServiceHandler = function(request, response) {
 		eventCategory: request.body.eventType,
 		eventDescription: request.body.eventDescription
 	};
-	console.log("dbCon"+MongoClient.dbCon)
-	VendorDbFunctions.addNewServiceQuery(MongoClient.dbCon, eventObj, callback, response);
+	VendorDbFunctions.addNewServiceQuery(MongoClient.dbCon, eventObj, callback, request,response);
 }
 
 
