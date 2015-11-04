@@ -25,14 +25,15 @@ app.use('/', publicRoutes.publicRouter);
 app.use('/test', testingRoutes.testRouter)
 
 
-eventEmitter.on('eventCreated', function() {
-	console.log('Trial')
-})
+function callback(isSuccess) {
+	if (isSuccess) {
+		var server = app.listen(8089, function() {
+			var host = server.address().address
+			var port = server.address().port
+			console.log("Server listening at http://%s:%s", host, port)
+		});
+	} else {
+		console.log("Db connection failed")
+	}
 
-function callback() {
-	var server = app.listen(8088, function() {
-		var host = server.address().address
-		var port = server.address().port
-		console.log("Server listening at http://%s:%s", host, port)
-	});
 }

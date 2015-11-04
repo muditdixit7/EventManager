@@ -24,7 +24,6 @@ function callback(isSuccess, response, user) {
 		});
 
 		cookies.set('auth_token', token)
-		console.log('cookie set hui')
 		response.write(new Buffer(JSON.stringify(user)))
 		response.end()
 

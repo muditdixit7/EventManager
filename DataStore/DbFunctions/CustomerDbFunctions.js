@@ -1,7 +1,6 @@
-exports.createNewEventQuery = function(db, eventObj, callback, request,response) {
+exports.createNewEventQuery = function(db, eventObj, callback, request, response) {
 
   var collection = db.collection('UserCollection')
-    console.log("emailId",request.decoded.emailId)
   collection.updateOne({
     "emailId": request.decoded.emailId
   }, {
@@ -16,15 +15,14 @@ exports.createNewEventQuery = function(db, eventObj, callback, request,response)
   });
 }
 
-exports.searchVendorForEventQuery = function(db, eventType, callback,response) {
-  console.log('db',eventType)
+exports.searchVendorForEventQuery = function(db, eventType, callback, response) {
   var collection = db.collection('UserCollection')
-  collection.find({"servicesProvided.eventCategory":eventType}).toArray(function(err,vendorList){
-    if(err){
-     callback(false)
-    }
-    else
-    callback(true,vendorList,response)
+  collection.find({
+    "servicesProvided.eventCategory": eventType
+  }).toArray(function(err, vendorList) {
+    if (err) {
+      callback(false)
+    } else
+      callback(true, vendorList, response)
   })
-
 }

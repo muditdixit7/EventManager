@@ -1,14 +1,13 @@
-exports.searchVendorForEventQuery = function(db, eventType, callback) {
+exports.searchVendorForEventQuery = function(db, response, eventType, callback) {
 	var collection = db.collection('UserCollection')
 	collection.find({
 		"servicesProvided.eventCategory": eventType
 	}).toArray(function(err, array) {
 		if (err) {
-			console.log(err)
+			callback(false)
 		} else
-			callback(array)
+			callback(true, response, array)
 	})
-
 }
 
 exports.addNewServiceQuery = function(db, eventObj, callback, request, response) {

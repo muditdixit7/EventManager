@@ -12,7 +12,7 @@ exports.privateRouter.use(function(req, res, next) {
 	if (!req.decoded) {
 		var cookies = new Cookies(req,res)
 		var token = cookies.get('auth_token')
-		console.log('token',token)//req.body.token || req.param('token') || req.headers['x-access-token']
+		//req.body.token || req.param('token') || req.headers['x-access-token']
 		if (token) {
 			jwt.verify(token,appConfig.secret,function(err, decoded) {
 				if (err) {
