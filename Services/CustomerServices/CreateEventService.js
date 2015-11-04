@@ -11,8 +11,7 @@ exports.createEventHandler = function(request, response) {
 		eventCategory: request.body.eventType,
 		eventDescription: request.body.eventDescription
 	};
-
-	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback,request, response);
+	CustomerDbFunctions.createNewEventQuery(MongoClient.dbCon, eventObj, callback, request, response);
 }
 
 

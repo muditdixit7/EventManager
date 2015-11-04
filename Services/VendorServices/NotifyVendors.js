@@ -3,17 +3,19 @@ var MongoClient = require(process.cwd() + "\\DataStore\\dbConnection\\MongoClien
 var vendorDbFunctions = require(process.cwd() + "\\Datastore\\DbFunctions\\VendorDbFunctions")
 
 
-appConfig.eventEmitter.on('eventCreated', function(evenType) {
-	console.log(evenType)
-	searchVendors(evenType)
+appConfig.eventEmitter.on('eventCreated', function(evenType, response) {
+	searchVendors(evenType, response)
 })
 
-var searchVendors = function(evenType) {
-	vendorDbFunctions.searchVendorForEventQuery(MongoClient.dbCon, evenType, messageVendors)
+var searchVendors = function(evenType, response) {
+	vendorDbFunctions.searchVendorForEventQuery(MongoClient.dbCon, response, evenType, messageVendors)
 }
 
-var messageVendors = function(listOfVendors) {
-	console.log(listOfVendors)
-// use some service to generate some messages
-
+var messageVendors = function(isSuccess, response, listOfVendors) {
+	if (isSuccess) {
+		response.json(listOfVendors)
+			// use some service to generate messages fro notification
+	} else {
+		//send null in response
+	}
 }
